@@ -71,7 +71,7 @@ def hash_text(text, hash_type):
 # Main program
 def main():
     parser = argparse.ArgumentParser(description='Hash Decrypter')
-    parser.add_argument('mode', type=str, choices=['hash', 'unhash'], help='Mode: hash or unhash')
+    parser.add_argument('mode', type=str, choices=['hash', 'crack'], help='Mode: hash or crack')
     parser.add_argument('hash_type', type=str, help='Type of hash (sha1, sha224, md5)')
     parser.add_argument('hash_value', type=str, help='Hash value to decrypt' if 'unhash' in sys.argv else 'Text value to hash')
     args = parser.parse_args()
