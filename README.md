@@ -10,3 +10,5 @@ enter the following command for hashing:
 for cracking a hash:
 
 `python hash_cracker.py crack <hash_type> <hash>`
+
+If you need any help use the `--help` or `-h` command
