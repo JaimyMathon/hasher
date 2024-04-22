@@ -28,6 +28,11 @@ def convert_text_to_sha384(text):
     digest = hashlib.sha384(text.encode()).hexdigest()
     return digest 
 
+# Dunction for converting text to sha512
+def convert_text_to_sha512(text):
+    digest = hashlib.sha512(text.encode()).hexdigest()
+    return digest
+
 
 # Creating functions for looking for the password with the hash value inside the psw file
 # Function for looking for password with sha-1 hash
@@ -96,6 +101,18 @@ def sha384(decrypt_hash):
                 return
     print("could not find the password")
 
+# Function for looking for password with sha384 hash
+def sha512(decrypt_hash):
+    clean_sha512 = decrypt_hash.strip().lower()
+
+    with open("./passwords.txt") as f:
+        for line in f:
+            password = line.strip()
+            converted_sha512 = convert_text_to_sha512(password)
+            if clean_sha512 == converted_sha512:
+                print(f"password found: {password}")
+                return
+    print("could not find the password")
 
 
 # Creating the functions for hashing plain text
@@ -111,8 +128,10 @@ def hash_text(text, hash_type):
         return convert_text_to_sha256(text)
     elif hash_type == "sha384":
         return convert_text_to_sha384(text)
+    elif hash_type == "sha512":
+        return convert_text_to_sha384(text)
     else:
-        return "Invalid hash type. Please choose 'sha1', 'md5', 'sha224', 'sha256', 'sha384'."
+        return "Invalid hash type. Please choose 'sha1', 'md5', 'sha224', 'sha256', 'sha384', 'sha512'."
 
 
 # Running the main program
@@ -120,7 +139,7 @@ def hash_text(text, hash_type):
 def main():
     parser = argparse.ArgumentParser(description='Hash Decrypter')
     parser.add_argument('mode', type=str, choices=['hash', 'crack'], help='Mode: hash or crack')
-    parser.add_argument('hash_type', type=str, help='Type of hash (sha1, sha224, sha256, sha384, md5)')
+    parser.add_argument('hash_type', type=str, help='Type of hash (sha1, sha224, sha256, sha384, sha512, md5)')
     parser.add_argument('hash_value', type=str, help='Hash value to decrypt' if 'unhash' in sys.argv else 'Text value to hash')
     args = parser.parse_args()
 
@@ -134,9 +153,11 @@ def main():
         elif args.hash_type == "sha256":
             sha256(args.hash_value)
         elif args.hash_type == "sha384":
-            sha384(args.hash_value)            
+            sha384(args.hash_value)  
+        elif args.hash_type == "sha512":
+            sha384(args.hash_value)                       
         else:
-            print("Invalid hash type. Please choose 'sha1', 'sha224', 'sha256', 'sha384' 'md5'.")
+            print("Invalid hash type. Please choose 'sha1', 'sha224', 'sha256', 'sha384', 'sha512', 'md5'.")
     elif args.mode == 'hash':
         print(hash_text(args.hash_value, args.hash_type))
 
